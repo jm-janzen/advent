@@ -17,11 +17,10 @@ for (const i in lines) {
 
 let ans = 0
 for (const i in lines) {
-	const [left, right] = lines[i].split(/\s+/)
+	const [left] = lines[i].split(/\s+/)
 	const similarity = rights[left]
 
 	if (similarity) {
-		console.log(`${left} appears ${rights[left]} times in right list`)
 		ans += (Number(left) * rights[left])
 	}
 }
