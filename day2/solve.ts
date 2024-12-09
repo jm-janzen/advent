@@ -1,10 +1,5 @@
-const INPUT = `7 6 4 2 1
-1 2 7 8 9
-9 7 6 2 1
-1 3 2 4 5
-8 6 4 4 1
-1 3 6 7 9
-1 2 3 0 1` // Fake data to test algo
+import { readFileSync } from 'fs'
+
 
 const parseInput = (input: string) => {
     let i = 0
@@ -19,7 +14,7 @@ const parseInput = (input: string) => {
     return output
 }
 
-const reports = parseInput(INPUT)
+const reports = parseInput(readFileSync('./input.txt', 'utf-8'))
 
 // The levels are either all increasing or all decreasing.
 // Any two adjacent levels differ by at least one and at most three.
