@@ -14,16 +14,7 @@ const parseInput = (input: string) => {
     return output
 }
 
-const reports = parseInput(readFileSync('./input.txt', 'utf-8'))
-
-// The levels are either all increasing or all decreasing.
-// Any two adjacent levels differ by at least one and at most three.
-
-let safeReports = 0
-for (const i in reports) {
-    const report = reports[i]
-    console.dir(report)
-
+const isSafe = (report: number[], i: number) => {
     let j = 1
     let safe = true
     let sign: string
@@ -33,7 +24,8 @@ for (const i in reports) {
         const diff = Math.abs(level - prevLevel)
         if (diff > 3 || diff < 1) {
             console.log(`Report #${i} is unsafe '${level}' and '${prevLevel}' out of range (${diff})`)
-            safe = false
+
+            return false
         } else if (sign === undefined){
             // Figure out init sign
             if (level > prevLevel) {
@@ -46,12 +38,12 @@ for (const i in reports) {
             if (sign == '-') {
                 if (level > prevLevel) {
                     console.log(`Report #${i} is unsafe '${level}' and '${prevLevel}' change from - to +`)
-                    safe = false
+                    return false
                 }
             } else {
                 if (prevLevel > level) {
                     console.log(`Report #${i} is unsafe '${level}' and '${prevLevel}' change from + to -`)
-                    safe = false
+                    return false
                 }
             }
         }
@@ -59,7 +51,19 @@ for (const i in reports) {
         j++
     }
 
-    if (safe){
+    return true
+}
+
+const reports = parseInput(readFileSync('./input.txt', 'utf-8'))
+
+let safeReports = 0
+for (const i in reports) {
+    const report = reports[i]
+    console.dir(report)
+
+    const safe = isSafe(report, Number(i))
+
+    if (safe) {
         console.log(`Report #${i} is safe`)
         safeReports++
     }
