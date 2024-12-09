@@ -14,7 +14,7 @@ const parseInput = (input: string) => {
     return output
 }
 
-const isSafe = (report: number[], i: number) => {
+const isSafe = (report: number[]) => {
     let j = 1
     let safe = true
     let sign: string
@@ -23,8 +23,6 @@ const isSafe = (report: number[], i: number) => {
         const prevLevel = report[j - 1]
         const diff = Math.abs(level - prevLevel)
         if (diff > 3 || diff < 1) {
-            console.log(`Report #${i} is unsafe '${level}' and '${prevLevel}' out of range (${diff})`)
-
             return false
         } else if (sign === undefined){
             // Figure out init sign
@@ -37,12 +35,10 @@ const isSafe = (report: number[], i: number) => {
             // Figure out if sign changed
             if (sign == '-') {
                 if (level > prevLevel) {
-                    console.log(`Report #${i} is unsafe '${level}' and '${prevLevel}' change from - to +`)
                     return false
                 }
             } else {
                 if (prevLevel > level) {
-                    console.log(`Report #${i} is unsafe '${level}' and '${prevLevel}' change from + to -`)
                     return false
                 }
             }
@@ -59,13 +55,17 @@ const reports = parseInput(readFileSync('./input.txt', 'utf-8'))
 let safeReports = 0
 for (const i in reports) {
     const report = reports[i]
-    console.dir(report)
 
-    const safe = isSafe(report, Number(i))
+    for (let j = 0; j < reports.length; j++) {
 
-    if (safe) {
-        console.log(`Report #${i} is safe`)
-        safeReports++
+        const slice = [...report.slice(0, j), ...report.slice(j + 1) ]
+        const sliceSafe = isSafe(slice, Number(i))
+
+        if (sliceSafe) {
+            safeReports++
+            break
+        }
+
     }
 }
 
