@@ -1,4 +1,7 @@
-const input = 'xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))'
+import { readFileSync } from 'fs'
+
+
+const input = readFileSync('./input.txt', 'utf-8')
 
 const output = ((input: string): number => {
     let answer = 0
